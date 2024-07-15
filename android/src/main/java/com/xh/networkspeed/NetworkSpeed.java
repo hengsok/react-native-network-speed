@@ -32,21 +32,21 @@ public class NetworkSpeed {
     }
 
 
-    // 获取手机所有接收流量
-    public long getTotalRxBytes() {
-        long nowTimeStamp = System.currentTimeMillis();
-        long nowTotalRxBytes = TrafficStats.getTotalRxBytes() == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getTotalRxBytes() / 1024);//转为KB
-        long speed = ((nowTotalRxBytes - lastDownLoadBytes) * 1000 / (nowTimeStamp - lastDownLoadTimeStamp));//毫秒转换
+    // 获取手机所有接收流量 // returns as kb/s
+    public double getTotalRxBytes() {
+        double nowTimeStamp = System.currentTimeMillis();
+        double nowTotalRxBytes = TrafficStats.getTotalRxBytes() == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getTotalRxBytes());//转为KB
+        double speed = (((nowTotalRxBytes - lastDownLoadBytes) * 8) / ((nowTimeStamp - lastDownLoadTimeStamp) / 1000)) / 1024;//毫秒转换 //bits/second
         lastDownLoadTimeStamp = nowTimeStamp;
         lastDownLoadBytes = nowTotalRxBytes;
         return speed;
     }
 
-    // 获取手机指定进程的接收流量
-    public long getTotalRxBytesByUid(int uid) {
-        long nowTimeStamp = System.currentTimeMillis();
-        long nowTotalRxBytes = TrafficStats.getUidRxBytes(uid) == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getUidRxBytes(uid) / 1024);//转为KB
-        long speed = ((nowTotalRxBytes - lastDownLoadBytesUid) * 1000 / (nowTimeStamp - lastDownLoadTimeStampUid));//毫秒转换
+    // 获取手机指定进程的接收流量 // returns as kb/s
+    public double getTotalRxBytesByUid(int uid) {
+        double nowTimeStamp = System.currentTimeMillis();
+        double nowTotalRxBytes = TrafficStats.getUidRxBytes(uid) == TrafficStats.UNSUPPORTED ? 0 : (TrafficStats.getUidRxBytes(uid));//转为KB
+        double speed = (((nowTotalRxBytes - lastDownLoadBytesUid) * 8) / ((nowTimeStamp - lastDownLoadTimeStampUid) / 1000)) / 1024;//毫秒转换
         lastDownLoadTimeStampUid = nowTimeStamp;
         lastDownLoadBytesUid = nowTotalRxBytes;
         return speed;
